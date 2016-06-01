@@ -1,0 +1,25 @@
+#!/bin/bash
+
+zypper  --non-interactive rr Nvidia_Bumblebee
+
+zypper  --non-interactive rm bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee \
+VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
+
+/sbin/lspci -vnn | grep '\[030[02]\]'
+
+echo t | zypper ar -f http://download.opensuse.org/repositories/X11:/Bumblebee\
+/openSUSE_$(lsb_release -d|cut -f2 -d" ")/ Nvidia_Bumblebee
+
+zypper --non-interactive ref -f
+
+zypper --non-interactive in -f $(rpm -qa kernel-`uname -r|cut -f3 -d"-"`|sed 's/\([0-9].*\)/devel-\1/')
+
+zypper --non-interactive in bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee
+
+zypper --non-interactive in VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
+
+sed -i 's/^Driver=$/Driver=nvidia/' /etc/bumblebee/bumblebee.conf
+
+bumblebeed --daemon 
+
+systemctl enable bumblebeed

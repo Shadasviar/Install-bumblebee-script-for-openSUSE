@@ -1,25 +1,30 @@
 #!/bin/bash
 
-zypper  --non-interactive rr Nvidia_Bumblebee
+if [/sbin/lspci -vnn | grep '\[030[02]\]' | grep -c NVIDIA > 0]; then
 
-zypper  --non-interactive rm bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee \
-VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
+  zypper  --non-interactive rr Nvidia_Bumblebee
 
-/sbin/lspci -vnn | grep '\[030[02]\]'
+  zypper  --non-interactive rm bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee \
+  VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
 
-echo t | zypper ar -f http://download.opensuse.org/repositories/X11:/Bumblebee\
-/openSUSE_$(lsb_release -d|cut -f2 -d" ")/ Nvidia_Bumblebee
+  echo t | zypper ar -f http://download.opensuse.org/repositories/X11:/Bumblebee\
+  /openSUSE_$(lsb_release -d|cut -f2 -d" ")/ Nvidia_Bumblebee
 
-zypper --non-interactive ref -f
+  zypper --non-interactive ref -f
 
-zypper --non-interactive in -f $(rpm -qa kernel-`uname -r|cut -f3 -d"-"`|sed 's/\([0-9].*\)/devel-\1/')
+  zypper --non-interactive in -f $(rpm -qa kernel-`uname -r|cut -f3 -d"-"`|sed 's/\([0-9].*\)/devel-\1/')
 
-zypper --non-interactive in bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee
+  zypper --non-interactive in -r Nvidia_Bumblebee bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee
 
-zypper --non-interactive in VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
+  zypper --non-interactive in -r Nvidia_Bumblebee VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
 
-sed -i 's/^Driver=$/Driver=nvidia/' /etc/bumblebee/bumblebee.conf
+  sed -i 's/^Driver=$/Driver=nvidia/' /etc/bumblebee/bumblebee.conf
 
-bumblebeed --daemon 
+  bumblebeed --daemon 
 
-systemctl enable bumblebeed
+  systemctl enable bumblebeed
+  
+else
+  echo You have not NVIDIA GPU, exiting
+  
+fi

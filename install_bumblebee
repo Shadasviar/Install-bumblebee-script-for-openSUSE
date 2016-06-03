@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [/sbin/lspci -vnn | grep '\[030[02]\]' | grep -c NVIDIA > 0]; then
+if [ $(/sbin/lspci -vnn | grep '\[030[02]\]' | grep -c NVIDIA) > 0 ]; then
 
   zypper  --non-interactive rr Nvidia_Bumblebee
 

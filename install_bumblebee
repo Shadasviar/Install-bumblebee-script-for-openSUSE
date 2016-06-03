@@ -8,7 +8,7 @@ if [ $(/sbin/lspci -vnn | grep '\[030[02]\]' | grep -c NVIDIA) > 0 ]; then
   VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
 
   echo t | zypper ar -f http://download.opensuse.org/repositories/X11:/Bumblebee\
-  /openSUSE_$(lsb_release -d|cut -f2 -d" ")/ Nvidia_Bumblebee
+/openSUSE_$(lsb_release -d|cut -f2 -d" ")/ Nvidia_Bumblebee
 
   zypper --non-interactive ref -f
 

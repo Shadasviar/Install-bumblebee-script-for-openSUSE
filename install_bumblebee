@@ -16,7 +16,9 @@ if [ $(/sbin/lspci -vnn | grep '\[030[02]\]' | grep -c NVIDIA) > 0 ]; then
 
   zypper --non-interactive in -r Nvidia_Bumblebee bumblebee primus bbswitch bbswitch-kmp-`uname -r|cut -f3 -d"-"` nvidia-bumblebee
 
-  zypper --non-interactive in -r Nvidia_Bumblebee VirtualGL-32bit libturbojpeg0-32bit nvidia-bumblebee-32bit primus-32bit
+  zypper --non-interactive in -r Nvidia_Bumblebee VirtualGL-32bit  nvidia-bumblebee-32bit primus-32bit
+  
+  zypper --non-interactive in libturbojpeg0-32bit
 
   sed -i 's/^Driver=$/Driver=nvidia/' /etc/bumblebee/bumblebee.conf
 

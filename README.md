@@ -1,8 +1,8 @@
 # Install bumblebee script for openSUSE
-Install bumblebee script for openSUSE, excluding 42.1, made by instructions from official forums:
+Install bumblebee script for openSUSE, made by instructions from official forums:
 > https://ru.opensuse.org/SDB:Bumblebee.
 
-Tested on openSUSE 13.2 and Tumbleweed
+Tested on openSUSE 13.2, 42.1, and Tumbleweed
 
 # Instructions
 If you have installed NVIDIA drivers and NVIDIA repositories or some other version of bumblebee, delete it by youself, because we can't forecast all cases of this stuff in the script.
